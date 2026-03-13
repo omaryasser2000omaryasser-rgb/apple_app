@@ -50,7 +50,7 @@ p, li, span { color: #a1a1a6 !important; }
 
 def render_sidebar(df, page_key=""):
     """Renders the shared sidebar and returns the active filters."""
-    st.sidebar.markdown("## 🍎 Apple Sales")
+    st.sidebar.markdown("## Apple Sales")
     st.sidebar.markdown("---")
 
     price_min = float(df['unit_price_usd'].min())
@@ -76,16 +76,22 @@ def render_sidebar(df, page_key=""):
                                          default=sorted(df['category'].unique()),
                                          key=f'cats_{page_key}')
 
-    return price, selected_ages, years, categories
+    price_tiers = st.sidebar.multiselect('Price Tier',
+                                          options=sorted(df['price_tier'].dropna().unique()),
+                                          default=sorted(df['price_tier'].dropna().unique()),
+                                          key=f'price_tiers_{page_key}')
+
+    return price, selected_ages, years, categories, price_tiers
 
 
-def apply_filters(df, price, selected_ages, years, categories):
+def apply_filters(df, price, selected_ages, years, categories, price_tiers):
     return df[
         (df['unit_price_usd'] >= price[0]) &
         (df['unit_price_usd'] <= price[1]) &
         (df['customer_age_group'].isin(selected_ages)) &
         (df['sale_year'].isin(years)) &
-        (df['category'].isin(categories))
+        (df['category'].isin(categories)) &
+        (df['price_tier'].isin(price_tiers))
     ]
 
 
@@ -122,8 +128,8 @@ def kpi_row(metrics: list):
 PLOTLY_DARK = dict(
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(28,28,30,0.8)',
-    font=dict(color='#ffffff'),        # ← this controls ALL text including legend
-    xaxis=dict(gridcolor='#2c2c2e',),
+    font=dict(color='#ffffff'),
+    xaxis=dict(gridcolor='#2c2c2e'),
     yaxis=dict(gridcolor='#2c2c2e'),
-    legend=dict(font=dict(color='#ffffff')),  # ← explicit legend override
+    legend=dict(font=dict(color='#ffffff')),
 )

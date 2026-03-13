@@ -15,14 +15,14 @@ st.markdown(DARK_CSS, unsafe_allow_html=True)
 
 df = pd.read_csv('data/cleaned data/cleaned_data.csv')
 
-price, selected_ages, years, categories = render_sidebar(df, 'age')
-filtered_df = apply_filters(df, price, selected_ages, years, categories)
+price, selected_ages, years, categories, price_tiers = render_sidebar(df, 'age')
+filtered_df = apply_filters(df, price, selected_ages, years, categories, price_tiers)
 
 nav_bar('Age_Group')
 
 # Header
 c1, c2 = st.columns([1, 8])
-c1.image("apple_logo.webp", width=70)
+c1.image("apple_logo.jfif", width=140)
 c2.markdown("<h1 style='margin-bottom:0;'>Customer age group</h1>", unsafe_allow_html=True)
 c2.markdown("<p style='color:#86868b;margin-top:4px;'>Apple Global Product Sales</p>", unsafe_allow_html=True)
 st.markdown("---")

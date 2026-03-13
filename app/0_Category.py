@@ -86,19 +86,22 @@ def render_sidebar(df):
                                          options=sorted(df['category'].unique()),
                                          default=sorted(df['category'].unique()))
 
-    return price, selected_ages, years, categories
+    price_tiers = st.sidebar.multiselect('Price Tier',        # ← add this
+                                          options=sorted(df['price_tier'].dropna().unique()),
+                                          default=sorted(df['price_tier'].dropna().unique()))
 
+    return price, selected_ages, years, categories, price_tiers
 
-price, selected_ages, years, categories = render_sidebar(df)
+price, selected_ages, years, categories, price_tiers = render_sidebar(df)
 
 filtered_df = df[
     (df['unit_price_usd'] >= price[0]) &
     (df['unit_price_usd'] <= price[1]) &
     (df['customer_age_group'].isin(selected_ages)) &
     (df['sale_year'].isin(years)) &
-    (df['category'].isin(categories))
-]
-
+    (df['category'].isin(categories)) &
+    (df['price_tier'].isin(price_tiers))
+    ]
 
 # ── Top Nav ──────────────────────────────────────────────────────────────────
 st.markdown("""
