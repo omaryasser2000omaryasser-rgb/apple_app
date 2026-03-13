@@ -58,7 +58,8 @@ p, li, span { color: #a1a1a6 !important; }
 """, unsafe_allow_html=True)
 
 
-# ── Load data ────────────────────────────────────────────────────────────────
+# ── Load data ───────────────────────────────────────────────────────────────────
+
 df = pd.read_csv('data/cleaned data/cleaned_data.csv')
 
 
